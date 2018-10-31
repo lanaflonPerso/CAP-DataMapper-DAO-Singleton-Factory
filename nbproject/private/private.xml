@@ -6,14 +6,11 @@
             <file>file:/C:/Users/maxime.parret/Desktop/Technologies_informatiques/Semestre_5/Concepts_avancés_et_technologies_actuelles/Concepts_avancés_de_persistance/GuideRestoBase/src/ch/hearc/ig/guideresto/presentation/Application.java</file>
         </group>
         <group name="Concept_avancée_de_persitance">
-            <file>file:/C:/Users/maxime.parret/Desktop/Technologies_informatiques/Semestre_5/Concepts_avancés_et_technologies_actuelles/Concepts_avancés_de_persistance/GuideRestoBase/src/ch/hearc/ig/guideresto/business/Localisation.java</file>
-            <file>file:/C:/Users/maxime.parret/Desktop/Technologies_informatiques/Semestre_5/Concepts_avancés_et_technologies_actuelles/Concepts_avancés_de_persistance/GuideRestoBase/src/ch/hearc/ig/guideresto/presentation/AppForDAO.java</file>
-            <file>file:/C:/Users/maxime.parret/Desktop/Technologies_informatiques/Semestre_5/Concepts_avancés_et_technologies_actuelles/Concepts_avancés_de_persistance/GuideRestoBase/src/ch/hearc/ig/guideresto/business/City.java</file>
-            <file>file:/C:/Users/maxime.parret/Desktop/Technologies_informatiques/Semestre_5/Concepts_avancés_et_technologies_actuelles/Concepts_avancés_de_persistance/GuideRestoBase/src/ch/hearc/ig/guideresto/persistence/Datasource.java</file>
-            <file>file:/C:/Users/maxime.parret/Desktop/Technologies_informatiques/Semestre_5/Concepts_avancés_et_technologies_actuelles/Concepts_avancés_de_persistance/GuideRestoBase/src/ch/hearc/ig/guideresto/business/Restaurant.java</file>
-            <file>file:/C:/Users/maxime.parret/Desktop/Technologies_informatiques/Semestre_5/Concepts_avancés_et_technologies_actuelles/Concepts_avancés_de_persistance/GuideRestoBase/src/ch/hearc/ig/guideresto/business/RestaurantType.java</file>
-            <file>file:/C:/Users/maxime.parret/Desktop/Technologies_informatiques/Semestre_5/Concepts_avancés_et_technologies_actuelles/Concepts_avancés_de_persistance/GuideRestoBase/src/ch/hearc/ig/guideresto/persistence/RestaurantDAO.java</file>
-            <file>file:/C:/Users/maxime.parret/Desktop/Technologies_informatiques/Semestre_5/Concepts_avancés_et_technologies_actuelles/Concepts_avancés_de_persistance/GuideRestoBase/src/ch/hearc/ig/guideresto/business/Grade.java</file>
+            <file>file:/C:/Users/maxime.parret/Desktop/Technologies_informatiques/Semestre_5/Concepts_avancés_et_technologies_actuelles/Concepts_avancés_de_persistance/GuideRestoBase_Factory_Maxime_2c/src/ch/hearc/ig/guideresto/presentation/AppForDAO.java</file>
+            <file>file:/C:/Users/maxime.parret/Desktop/Technologies_informatiques/Semestre_5/Concepts_avancés_et_technologies_actuelles/Concepts_avancés_de_persistance/GuideRestoBase_Factory_Maxime_2c/src/ch/hearc/ig/guideresto/business/Restaurant.java</file>
+            <file>file:/C:/Users/maxime.parret/Desktop/Technologies_informatiques/Semestre_5/Concepts_avancés_et_technologies_actuelles/Concepts_avancés_de_persistance/GuideRestoBase_Factory_Maxime_2c/src/ch/hearc/ig/guideresto/persistence/RestaurantDAO.java</file>
+            <file>file:/C:/Users/maxime.parret/Desktop/Technologies_informatiques/Semestre_5/Concepts_avancés_et_technologies_actuelles/Concepts_avancés_de_persistance/GuideRestoBase_Factory_Maxime_2c/src/ch/hearc/ig/guideresto/persistence/Datasource.java</file>
+            <file>file:/C:/Users/maxime.parret/Desktop/Technologies_informatiques/Semestre_5/Concepts_avancés_et_technologies_actuelles/Concepts_avancés_de_persistance/GuideRestoBase_Factory_Maxime_2c/src/ch/hearc/ig/guideresto/persistence/AbstractFactory.java</file>
         </group>
     </open-files>
 </project-private>

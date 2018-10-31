@@ -9,11 +9,17 @@ import ch.hearc.ig.guideresto.business.City;
 import ch.hearc.ig.guideresto.business.Localisation;
 import ch.hearc.ig.guideresto.business.Restaurant;
 import ch.hearc.ig.guideresto.business.RestaurantType;
-import ch.hearc.ig.guideresto.persistence.Datasource;
-import ch.hearc.ig.guideresto.persistence.RestaurantDAO;
+import ch.hearc.ig.guideresto.persistence.AbstractFactory;
+import ch.hearc.ig.guideresto.persistence.ChoixTypeDatasource;
+import ch.hearc.ig.guideresto.persistence.oracleDAO.OracleCityDAO;
+import ch.hearc.ig.guideresto.persistence.CityDAOInterface;
+import ch.hearc.ig.guideresto.persistence.oracleDAO.OracleDatasource;
+import ch.hearc.ig.guideresto.persistence.oracleDAO.OracleRestaurantDAO;
+import ch.hearc.ig.guideresto.persistence.RestaurantDAOInterface;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import sun.security.smartcardio.SunPCSC.Factory;
 
 /**
  *
@@ -22,43 +28,31 @@ import java.util.List;
 public class AppForDAO {
     public static void main(String[] args) throws SQLException{
         
-        //Instanciation de la datasource et setter de la connexion static qui va être reprise dans les DAO
-        Datasource datasource = new Datasource();
-        datasource.openSession();
-        
+        //Instanciation de la oracleDatasource et setter de la connexion static qui va être reprise dans les DAO
+        AbstractFactory factory = AbstractFactory.getDatabaseFactory(ChoixTypeDatasource.ORACLE);
+
         //Manipulation des données avec données tests
         City cityTest = new City(1,"ziptest","CityNameTest");
         Localisation localisationtest1 = new Localisation("Streettest",cityTest);
         RestaurantType restType1 = new RestaurantType(1,"labeltest","DescriptionTest");
-        Restaurant restTest1 = new Restaurant(6,"testDAO2","DescriptionTest","WebsiteTest",localisationtest1, restType1);
-        
-        insertRestaurant(restTest1);
-        displayListRestaurants();
-        
-        //Commit + fermeture de la datasource
-        datasource.commitTransaction();
-        datasource.closeSession();
-  
-             
-    }
-    
-    private static void insertRestaurant(Restaurant restaurant) throws SQLException{
-        RestaurantDAO restaurantMapper = new RestaurantDAO();
-        restaurantMapper.insert(restaurant);
-    }
-    
-    private static void displayListRestaurants() throws SQLException {
+        Restaurant restTest1 = new Restaurant(6,"testDAO1","DescriptionTest","WebsiteTest",localisationtest1, restType1);
+
+        factory.getDatasource().openSession();
+        factory.getCityDAO().insert(cityTest);
+        factory.getRestaurantDAO().insert(restTest1);
+        factory.getDatasource().commitTransaction();
+
         //afficher la liste des restaurants
-        RestaurantDAO restaurantMapper = new RestaurantDAO();
         List<Restaurant> restaurants = new ArrayList<>();
-        restaurants = restaurantMapper.findAll();
-        String result;
-        
+        restaurants = factory.getRestaurantDAO().findAll();
+            String result;
         for(Restaurant currentRest : restaurants){
-            result = "";
-            result = "\"" + result + currentRest.getName() + "\" - " + currentRest.getAddress().getStreet() + " - ";
-            result = result + currentRest.getAddress().getCity().getZipCode() + " " + currentRest.getAddress().getCity().getCityName();
-            System.out.println(result);
+          result = "";
+          result = "\"" + result + currentRest.getName() + "\" - " + currentRest.getAddress().getStreet() + " - ";
+          result = result + currentRest.getAddress().getCity().getZipCode() + " " + currentRest.getAddress().getCity().getCityName();
+          System.out.println(result);
         }
+
+        factory.getDatasource().closeSession();
     }
 }

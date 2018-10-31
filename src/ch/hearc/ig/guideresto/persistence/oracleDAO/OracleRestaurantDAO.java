@@ -1,9 +1,11 @@
-package ch.hearc.ig.guideresto.persistence;
+package ch.hearc.ig.guideresto.persistence.oracleDAO;
 
 import ch.hearc.ig.guideresto.business.Restaurant;
 import ch.hearc.ig.guideresto.business.City;
 import ch.hearc.ig.guideresto.business.Localisation;
 import ch.hearc.ig.guideresto.business.RestaurantType;
+import ch.hearc.ig.guideresto.persistence.DataSource;
+import ch.hearc.ig.guideresto.persistence.RestaurantDAOInterface;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,29 +15,35 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RestaurantDAO {
+public class OracleRestaurantDAO extends DAO implements RestaurantDAOInterface {
+
+    //On va ici faire en sorte que quand on construit l'objet on doive choisir une datasource qui va être propre à tous les DAO
+    public OracleRestaurantDAO(DataSource dataSource){
+      super(dataSource);
+    }
+
+    @Override
     public void insert(Restaurant restaurant) {
-        try {
-            // Instanciation de datasource dans le main et reprise de la connexion grâce à la méthode static
-            
-            Connection connection = Datasource.getConnection();
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO RESTAURANTS (NOM, ADRESSE, DESCRIPTION, SITE_WEB, FK_TYPE, FK_VILL) VALUES (?,?,?,?,?,?)");
-            statement.setString(1, restaurant.getName());
+        String requeteSQL = "INSERT INTO RESTAURANTS (NOM, ADRESSE, DESCRIPTION, SITE_WEB, FK_TYPE, FK_VILL) VALUES (?,?,?,?,?,?)";
+
+        //On peut ici directement appeler la connexion selon la dataSource préselectionné
+        try (PreparedStatement statement = getConnection().prepareStatement(requeteSQL);
+        ){  statement.setString(1, restaurant.getName());
             statement.setString(2, restaurant.getAddress().getStreet());
             statement.setString(3, restaurant.getDescription());
             statement.setString(4, restaurant.getWebsite());
             statement.setInt(5, restaurant.getType().getId());
             statement.setInt(6, restaurant.getAddress().getCity().getId());
             statement.execute();
- 
         } catch(SQLException e) {
             throw new RuntimeException(e);
-        }
+       }
     }
+    @Override
     public void update(Restaurant restaurant) {
-        try{
-            Connection connection = Datasource.getConnection();
-            PreparedStatement statement = connection.prepareStatement("UPDATE RESTAURANTS SET NOM = ?, ADRESSE = ?, DESCRIPTION = ?, SITE_WEB = ?, FK_TYPE = ?, FK_VILLE = ?) WHERE NUMERO = ?");
+        String requeteSQL = "UPDATE RESTAURANTS SET NOM = ?, ADRESSE = ?, DESCRIPTION = ?, SITE_WEB = ?, FK_TYPE = ?, FK_VILLE = ?) WHERE NUMERO = ?";
+
+        try(PreparedStatement statement = getConnection().prepareStatement(requeteSQL)){
             statement.setString(1, restaurant.getName());
             statement.setString(2, restaurant.getAddress().getStreet());
             statement.setString(3, restaurant.getDescription());
@@ -48,28 +56,30 @@ public class RestaurantDAO {
             throw new RuntimeException(e);
         }
     }
+    @Override
     public void delete(Restaurant restaurant) {
-            try {
-            Connection connection = Datasource.getConnection();
-            PreparedStatement statement = connection.prepareStatement("DELETE FROM RESTAURANTS WHERE NUMERO = ?");
+
+            String requeteSQL = "DELETE FROM RESTAURANTS WHERE NUMERO = ?";
+
+            try(PreparedStatement statement = getConnection().prepareStatement(requeteSQL);) {
             statement.setInt(1, restaurant.getId());
             statement.execute();
         } catch(SQLException e) {
             throw new RuntimeException(e);
         }
     }
+    @Override
     public List<Restaurant> findAll() {
 
-            
-            try(Connection connection = Datasource.getConnection();){
-            PreparedStatement statement = connection.prepareStatement("SELECT R.NUMERO, R.NOM, R.ADRESSE, R.DESCRIPTION, R.SITE_WEB, V.NUMERO AS VILLE_NUMERO, V.CODE_POSTAL,"+
-                    "V.NOM_VILLE, T.NUMERO, T.LIBELLE, T.DESCRIPTION AS TYPE_DESCRIPTION "+
-                    "FROM RESTAURANTS R INNER JOIN VILLES V ON R.FK_VILL = V.NUMERO "+
-                    "INNER JOIN TYPES_GASTRONOMIQUES T ON R.FK_TYPE = T.NUMERO "+
-                    "ORDER BY R.NOM");
-            
-            ResultSet resultSet = statement.executeQuery();
-            
+            String requeteSQL = "SELECT R.NUMERO, R.NOM, R.ADRESSE, R.DESCRIPTION, R.SITE_WEB, V.NUMERO AS VILLE_NUMERO, V.CODE_POSTAL,"+
+                "V.NOM_VILLE, T.NUMERO, T.LIBELLE, T.DESCRIPTION AS TYPE_DESCRIPTION "+
+                "FROM RESTAURANTS R INNER JOIN VILLES V ON R.FK_VILL = V.NUMERO "+
+                "INNER JOIN TYPES_GASTRONOMIQUES T ON R.FK_TYPE = T.NUMERO "+
+                "ORDER BY R.NOM";
+
+            try(PreparedStatement statement = getConnection().prepareStatement(requeteSQL);
+                ResultSet resultSet = statement.executeQuery()){
+
             List<Restaurant> restaurants = new ArrayList<>();
             Integer numType;
             Integer numCity;
@@ -108,10 +118,11 @@ public class RestaurantDAO {
                 restaurants.add(restaurantTmp);
 
             }
+                statement.close();
+                resultSet.close();
                 return restaurants;
             } catch(SQLException e){
                 throw new RuntimeException(e);
         }
-          
     }
 }
