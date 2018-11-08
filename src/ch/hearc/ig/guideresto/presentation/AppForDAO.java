@@ -16,6 +16,8 @@ import ch.hearc.ig.guideresto.persistence.CityDAOInterface;
 import ch.hearc.ig.guideresto.persistence.oracleDAO.OracleDatasource;
 import ch.hearc.ig.guideresto.persistence.oracleDAO.OracleRestaurantDAO;
 import ch.hearc.ig.guideresto.persistence.RestaurantDAOInterface;
+import ch.hearc.ig.guideresto.service.CityService;
+import ch.hearc.ig.guideresto.service.RestaurantService;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +30,7 @@ import sun.security.smartcardio.SunPCSC.Factory;
 public class AppForDAO {
     public static void main(String[] args) throws SQLException{
         
-        //Instanciation de la oracleDatasource et setter de la connexion static qui va être reprise dans les DAO
+        //Choix de la Datasource
         AbstractFactory factory = AbstractFactory.getDatabaseFactory(ChoixTypeDatasource.ORACLE);
 
         //Manipulation des données avec données tests
@@ -37,14 +39,15 @@ public class AppForDAO {
         RestaurantType restType1 = new RestaurantType(1,"labeltest","DescriptionTest");
         Restaurant restTest1 = new Restaurant(6,"testDAO1","DescriptionTest","WebsiteTest",localisationtest1, restType1);
 
-        factory.getDatasource().openSession();
-        factory.getCityDAO().insert(cityTest);
-        factory.getRestaurantDAO().insert(restTest1);
-        factory.getDatasource().commitTransaction();
+        //On utilise les services par rapport au choix de la datasource d'avant afin de gérer les connexions pour chaque "manoeuve sur la BDD
+        CityService cityService = new CityService(factory);
+        cityService.insertCity(cityTest);
+
+        RestaurantService restaurantService = new RestaurantService(factory);
+        restaurantService.insertRestaurant(restTest1);
 
         //afficher la liste des restaurants
-        List<Restaurant> restaurants = new ArrayList<>();
-        restaurants = factory.getRestaurantDAO().findAll();
+        List <Restaurant> restaurants = restaurantService.findAllRestaurant();
             String result;
         for(Restaurant currentRest : restaurants){
           result = "";
@@ -53,6 +56,5 @@ public class AppForDAO {
           System.out.println(result);
         }
 
-        factory.getDatasource().closeSession();
     }
 }

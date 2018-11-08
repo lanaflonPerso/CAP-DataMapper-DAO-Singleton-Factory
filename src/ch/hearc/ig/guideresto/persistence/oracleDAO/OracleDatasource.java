@@ -15,8 +15,8 @@ import java.sql.SQLException;
 import oracle.jdbc.pool.OracleDataSource;
 
 public class OracleDatasource extends DataSource {
-    
-    private static Connection cn = null;
+
+  private static Connection cn = null;
 
   private void createConnection() throws SQLException {
     try {
@@ -36,52 +36,52 @@ public class OracleDatasource extends DataSource {
     }
   }
 
-    @Override
-    public Connection getConnection() {
-      try {
-        if (cn == null) {
-          createConnection();
-        }
-        return cn;
-      } catch (SQLException e) {
-        throw new RuntimeException(e);
+  @Override
+  public Connection getConnection() {
+    try {
+      if (cn == null) {
+        createConnection();
       }
+      return cn;
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
     }
+  }
 
-    @Override
-    public void openSession() {
-      getConnection();
-    }
+  @Override
+  public void openSession() {
+    getConnection();
+  }
 
-    @Override
-    public void closeSession(){
-        try {
-            if(cn != null){
-                cn.close();
-            }
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }finally{
-            cn = null;
-        }
-    }
-
-    @Override
-    public void commitTransaction() {
-      try {
-        cn.commit();
-      } catch (SQLException e) {
-        throw new RuntimeException(e);
+  @Override
+  public void closeSession(){
+    try {
+      if(cn != null){
+        cn.close();
       }
+    } catch (SQLException ex) {
+      throw new RuntimeException(ex);
+    }finally{
+      cn = null;
+    }
+  }
+
+  @Override
+  public void commitTransaction() {
+    try {
+      cn.commit();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  @Override
+  public void rollbackTransaction(){
+    try {
+      cn.rollback();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
     }
 
-      @Override
-      public void rollbackTransaction(){
-        try {
-          cn.rollback();
-        } catch (SQLException e) {
-          throw new RuntimeException(e);
-        }
-
-      }
-    }
+  }
+}

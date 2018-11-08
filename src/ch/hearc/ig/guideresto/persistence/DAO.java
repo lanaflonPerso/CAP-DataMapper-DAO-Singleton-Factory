@@ -1,6 +1,5 @@
-package ch.hearc.ig.guideresto.persistence.oracleDAO;
+package ch.hearc.ig.guideresto.persistence;
 
-import ch.hearc.ig.guideresto.persistence.DataSource;
 import java.sql.Connection;
 
 public abstract class DAO {

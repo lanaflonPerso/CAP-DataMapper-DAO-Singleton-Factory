@@ -2,8 +2,8 @@ package ch.hearc.ig.guideresto.persistence.oracleDAO;
 
 import ch.hearc.ig.guideresto.business.City;
 import ch.hearc.ig.guideresto.persistence.CityDAOInterface;
+import ch.hearc.ig.guideresto.persistence.DAO;
 import ch.hearc.ig.guideresto.persistence.DataSource;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

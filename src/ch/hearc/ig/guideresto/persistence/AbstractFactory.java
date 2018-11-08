@@ -24,5 +24,5 @@ public abstract class AbstractFactory {
         public abstract GradeDAO getGradeDAO();
         public abstract RestaurantTypeDAO getRestaurantTypeDAO();
         */
-    
+
 }

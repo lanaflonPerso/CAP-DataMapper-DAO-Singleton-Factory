@@ -6,6 +6,7 @@ import ch.hearc.ig.guideresto.business.Localisation;
 import ch.hearc.ig.guideresto.business.Restaurant;
 import ch.hearc.ig.guideresto.business.RestaurantType;
 import ch.hearc.ig.guideresto.persistence.BasicEvaluationDAOInterface;
+import ch.hearc.ig.guideresto.persistence.DAO;
 import ch.hearc.ig.guideresto.persistence.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -14,7 +14,6 @@ public abstract class DataSource {
 
     return INSTANCE;
   }
-
   public abstract Connection getConnection();
   public abstract void openSession();
   public abstract void closeSession();

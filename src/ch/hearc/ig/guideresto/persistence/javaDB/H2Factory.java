@@ -1,7 +1,7 @@
 package ch.hearc.ig.guideresto.persistence.javaDB;
 
-import ch.hearc.ig.guideresto.persistence.DataSource;
 import ch.hearc.ig.guideresto.persistence.AbstractFactory;
+import ch.hearc.ig.guideresto.persistence.DataSource;
 import ch.hearc.ig.guideresto.persistence.RestaurantDAOInterface;
 import ch.hearc.ig.guideresto.persistence.BasicEvaluationDAOInterface;
 import ch.hearc.ig.guideresto.persistence.CityDAOInterface;
